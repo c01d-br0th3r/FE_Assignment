@@ -30,7 +30,7 @@ a {
     height: 12px;
     border-radius: 6px;
     background-color: #232323;
-    animation: load 1.5s linear infinite;
+    animation: load 1s linear infinite;
   }
   
   .dot:nth-child(1) {
@@ -47,11 +47,14 @@ a {
     0% {
       transform: scale(0);
     }
-    50% {
+    15% {
       transform: scale(1);
     }
-    70% {
-      transform: scale(0.3);
+    80% {
+      transform: scale(1);
+    }
+    90% {
+        transform: scale(0);
     }
     100% {
       transform: scale(0);
