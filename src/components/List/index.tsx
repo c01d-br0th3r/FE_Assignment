@@ -58,6 +58,7 @@ const PriceWrapper = styled.div`
 
 const CloseBtn = styled.div`
   width: 50px;
+  cursor: pointer;
 `;
 
 const List: React.FC<IListProps> = ({
