@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Layout from "components/Layout";
 import Label from "components/Label";
+import Loading from "components/Loading";
 
 const Home = () => {
   return (
@@ -15,6 +16,8 @@ const Home = () => {
           />
         </a>
       </Link>
+      <Label value="로딩 테스트" margin="48px 0" />
+      <Loading />
     </Layout>
   );
 };
