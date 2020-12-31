@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export interface ICheckboxProps {
   checked?: boolean;
-  setChecked?: () => void;
-  onClick?: () => void;
+  setChecked?: React.MouseEventHandler<HTMLElement>;
+  id?: string;
 }
 
 export const StyledCheckbox = styled.div<ICheckboxProps>`

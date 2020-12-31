@@ -9,6 +9,7 @@ import styled from "styled-components";
 
 import { okkotData, IOkkotData } from "data";
 import { moneyFormat } from "moneyFormat";
+import Checkbox from "components/Checkbox";
 
 const Section = styled.div`
   margin: 32px 0;
@@ -41,6 +42,12 @@ const Button = styled.button`
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+`;
+
+const CheckboxWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
 `;
 
 interface ICartData extends IOkkotData {
@@ -89,6 +96,24 @@ const Cart = () => {
     console.log(orderList);
   };
 
+  const handleCheckboxClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLDivElement;
+    const id = target.id;
+    const checked = !target.classList.contains("checked");
+    const updatedData = lists.map((list) =>
+      `${list.id}` === id ? { ...list, checked: checked } : list
+    );
+    const allChecked = updatedData.every((list) => list.checked);
+    setLists(updatedData);
+    setSelectAll(allChecked);
+  };
+
+  const handleSelectAll = () => {
+    const updatedData = lists.map((list) => ({ ...list, checked: !selectAll }));
+    setLists(updatedData);
+    setSelectAll((prev) => !prev);
+  };
+
   return (
     <Layout>
       <Label value="장바구니" size="28px" weight="600" margin="0 0 32px 0" />
@@ -112,7 +137,10 @@ const Cart = () => {
       </Section>
       <Section>
         <Label value="상품 내역" size="22px" weight="500" margin="0 0 24px 0" />
-        <Label value="전체 선택!" onClick={() => setSelectAll(true)} />
+        <CheckboxWrapper>
+          <Checkbox checked={selectAll} setChecked={handleSelectAll} />
+          <Label value="전체" margin="0 0 0 16px" />
+        </CheckboxWrapper>
         <Divider />
         {lists.length === 0 ? (
           <Section>
@@ -127,8 +155,8 @@ const Cart = () => {
               currentCount={list.currentCount}
               stock={list.stock}
               price={list.price}
-              selectAll={selectAll}
-              setSelectAll={(state: boolean) => setSelectAll(state)}
+              checked={list.checked}
+              handleCheckboxClick={handleCheckboxClick}
               lists={lists}
               setLists={setLists}
             />

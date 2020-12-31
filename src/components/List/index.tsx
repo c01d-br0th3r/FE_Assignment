@@ -3,7 +3,6 @@ import { useCounter } from "hooks/useCounter";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
 import styled from "styled-components";
 import { IOkkotData } from "data";
-import { useCheckbox } from "hooks/useCheckbox";
 import Checkbox from "components/Checkbox";
 import { moneyFormat } from "moneyFormat";
 
@@ -17,8 +16,8 @@ interface IListProps {
   currentCount: number;
   stock: number;
   price: number;
-  selectAll: boolean;
-  setSelectAll: (state: boolean) => void;
+  checked?: boolean;
+  handleCheckboxClick: React.MouseEventHandler<HTMLElement>;
   lists: ICartData[];
   setLists: Dispatch<SetStateAction<ICartData[]>>;
 }
@@ -67,37 +66,17 @@ const List: React.FC<IListProps> = ({
   currentCount,
   stock,
   price,
-  selectAll,
-  setSelectAll,
+  checked,
+  handleCheckboxClick,
   lists,
   setLists,
 }) => {
   const { count, countUp, countDown } = useCounter(currentCount, stock);
-  const { checked, setCheckedToggle, setCheckedTrue } = useCheckbox(false);
-
-  useEffect(() => {
-    if (selectAll === true) {
-      const updatedData = lists.map((list) => ({ ...list, checked: true }));
-      setLists(updatedData);
-      setCheckedTrue();
-      setSelectAll(false);
-    }
-  }, [selectAll]);
 
   const countWithSetData = () => {
     const updatedData = lists.map((list) => {
       if (list.id === id) {
         list.currentCount = count;
-      }
-      return list;
-    });
-    setLists(updatedData);
-  };
-
-  const checkWithSetData = () => {
-    const updatedData = lists.map((list) => {
-      if (list.id === id) {
-        list.checked = checked;
       }
       return list;
     });
@@ -112,15 +91,15 @@ const List: React.FC<IListProps> = ({
   useEffect(() => {
     countWithSetData();
   }, [count]);
-
-  useEffect(() => {
-    checkWithSetData();
-  }, [checked]);
-
+  console.log(lists);
   return (
-    <ListWrapper>
+    <ListWrapper id={`${id}`}>
       <CheckBoxWrapper>
-        <Checkbox checked={checked} setChecked={setCheckedToggle} />
+        <Checkbox
+          id={`${id}`}
+          checked={checked}
+          setChecked={handleCheckboxClick}
+        />
       </CheckBoxWrapper>
       <ImgWrapper>IMG</ImgWrapper>
       <TitleWrapper>{name}</TitleWrapper>
