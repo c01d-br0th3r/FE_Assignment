@@ -4,6 +4,14 @@ import Layout from "components/Layout";
 import Label from "components/Label";
 import Loading from "components/Loading";
 
+import styled from "styled-components";
+
+const Center = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
 const Home = () => {
   return (
     <Layout>
@@ -18,14 +26,16 @@ const Home = () => {
       </Link>
       <Label value="로딩 테스트" margin="48px 0" />
       <Loading />
-      <select name="number">
-        <option value="" selected>
-          -- 선택 --
-        </option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-      </select>
+      <Center>
+        <select name="number">
+          <option value="" selected>
+            -- 선택 --
+          </option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </Center>
     </Layout>
   );
 };
