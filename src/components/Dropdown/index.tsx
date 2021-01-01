@@ -3,17 +3,22 @@ import React from "react";
 import * as S from "./style";
 
 const Dropdown: React.FC<S.IDropdownProps> = ({
-  value = "",
   setValue,
   open = false,
   setOpen,
   children,
   disabled = false,
+  className,
+  defaultValue = "선택해주세요",
 }) => {
   return (
-    <S.DropdownWrapper onClick={setOpen} disabled={disabled}>
+    <S.DropdownWrapper
+      onClick={setOpen}
+      disabled={disabled}
+      className={className}
+    >
       <S.DropdownDefault>
-        <Label value={value.length === 0 ? "선택해주세요." : value} />
+        <Label value={defaultValue} weight="500" />
         <S.DropdownIcon>
           <i className="fas fa-caret-down" />
         </S.DropdownIcon>

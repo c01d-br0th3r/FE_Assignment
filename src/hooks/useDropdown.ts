@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 
-export const useDropdown = () => {
-  const [value, _setValue] = useState<string>("");
+export const useDropdown = (data: any[]) => {
+  const [value, _setValue] = useState<any>("");
   const [open, _setOpen] = useState<boolean>(false);
   const setValue = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const target = e.target as HTMLElement;
-    if (!target.classList.contains("dropdown__option")) {
-      _setValue(target.innerText);
-      _setOpen(false);
-    }
+    const _target = e.target as HTMLElement;
+    const id = _target.id;
+    const target = data.filter((d) => `${d.id}` === id);
+    if (target.length !== 1) return;
+    _setValue(target[0]);
+    _setOpen(false);
   };
   const setOpen = () => {
     _setOpen((prev) => !prev);

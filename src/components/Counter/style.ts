@@ -7,13 +7,13 @@ export interface ICounterProps {
 }
 
 export const CounterWrapper = styled.div`
-  width: 120px;
+  width: 100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border: 1px solid #c2c2c2;
   border-radius: 8px;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 500;
 `;
 
@@ -32,4 +32,5 @@ export const CounterButton = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  padding: 4px;
 `;

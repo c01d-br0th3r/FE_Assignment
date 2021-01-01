@@ -7,7 +7,12 @@ import List from "components/List";
 import Divider from "components/Divider";
 import styled from "styled-components";
 
-import { okkotData, IOkkotData } from "data";
+import {
+  okkotData,
+  IOkkotData,
+  deliveryTypeData,
+  IDeliveryTypeData,
+} from "data";
 import { moneyFormat } from "moneyFormat";
 import Checkbox from "components/Checkbox";
 
@@ -44,6 +49,13 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const DropdownFormat = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const CheckboxWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -56,7 +68,10 @@ interface ICartData extends IOkkotData {
 
 const Cart = () => {
   const [lists, setLists] = useState<ICartData[]>([]);
-  const { value: dropdownValue, setValue, open, setOpen } = useDropdown();
+  const [deliveryType, setDeliveryType] = useState<IDeliveryTypeData[]>([]);
+  const { value: dropdownValue, setValue, open, setOpen } = useDropdown(
+    deliveryType
+  );
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(0);
   const [amount, setAmount] = useState<number>(0);
@@ -65,25 +80,27 @@ const Cart = () => {
   useEffect(() => {
     const cartData = okkotData.map((data) => ({ ...data, checked: false }));
     setLists(cartData);
+    setDeliveryType(deliveryTypeData);
   }, []);
 
   useEffect(() => {
     calcTotal();
   }, [lists]);
 
+  useEffect(() => {
+    if (dropdownValue) setFee(dropdownValue.delivery_price);
+  }, [dropdownValue]);
+
   const calcTotal = () => {
     const checkedList = lists.filter((list) => list.checked);
     let total = 0;
     checkedList.forEach(
-      (checked) => (total += checked.currentCount * checked.price)
+      (checked) => (total += checked.current_count * checked.product_price)
     );
     setTotal(total);
     let count = 0;
-    checkedList.forEach((checked) => (count += checked.currentCount));
+    checkedList.forEach((checked) => (count += checked.current_count));
     setAmount(count);
-    let fee = 0;
-    checkedList.forEach((checked) => (fee += checked.deliveryPrice));
-    setFee(fee);
   };
 
   const handleClick = () => {
@@ -123,20 +140,44 @@ const Cart = () => {
         <Label value="서울시 강남구 도산대로 174 7층" />
       </Section>
       <Section>
-        <Label value="배송 방법" size="22px" weight="500" margin="0 0 8px 0" />
+        <Label value="배송 방법" size="22px" weight="500" margin="0 0 12px 0" />
         <Dropdown
           value={dropdownValue}
           setValue={setValue}
           open={open}
           setOpen={setOpen}
+          defaultValue={
+            dropdownValue
+              ? `${dropdownValue.name} (${moneyFormat(
+                  dropdownValue.delivery_price
+                )}원)`
+              : "선택해주세요."
+          }
         >
-          <Label value="직접 배송: 판매자가 직접 배송" />
-          <Label value="픽업: 정해진 시간에 픽업" />
-          <Label value="택배 배송" />
+          {deliveryType.map((delivery) => (
+            <DropdownFormat
+              key={delivery.id}
+              id={`${delivery.id}`}
+              className={"dropdown__option"}
+            >
+              <Label
+                value={`${delivery.name}`}
+                weight="500"
+                id={`${delivery.id}`}
+              />
+              <Label
+                value={`${moneyFormat(delivery.delivery_price)}원`}
+                size="14px"
+                color="#727272"
+                weight="500"
+                id={`${delivery.id}`}
+              />
+            </DropdownFormat>
+          ))}
         </Dropdown>
       </Section>
       <Section>
-        <Label value="상품 내역" size="22px" weight="500" margin="0 0 24px 0" />
+        <Label value="상품 내역" size="22px" weight="500" margin="0 0 12px 0" />
         <CheckboxWrapper>
           <Checkbox checked={selectAll} setChecked={handleSelectAll} />
           <Label value="전체" margin="0 0 0 16px" />
@@ -151,10 +192,11 @@ const Cart = () => {
             <List
               id={list.id}
               key={list.id}
-              name={list.name}
-              currentCount={list.currentCount}
+              name={list.product_name}
+              imageUrl={list.image_url}
+              currentCount={list.current_count}
               stock={list.stock}
-              price={list.price}
+              price={list.product_price}
               checked={list.checked}
               handleCheckboxClick={handleCheckboxClick}
               lists={lists}

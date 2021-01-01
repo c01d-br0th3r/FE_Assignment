@@ -9,6 +9,7 @@ const Label: React.FC<S.ILabelProps> = ({
   color = "#121212",
   value = "Text",
   onClick,
+  id,
 }) => {
   return (
     <S.LabelWrapper
@@ -18,6 +19,7 @@ const Label: React.FC<S.ILabelProps> = ({
       margin={margin}
       color={color}
       onClick={onClick}
+      id={id}
     >
       {value}
     </S.LabelWrapper>

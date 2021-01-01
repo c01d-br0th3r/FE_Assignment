@@ -2,16 +2,18 @@ import React from "react";
 import styled from "styled-components";
 
 export interface IDropdownProps {
-  value?: string;
+  value?: any;
   setValue?: React.MouseEventHandler<HTMLElement>;
   open?: boolean;
   setOpen?: () => void;
   children?: React.ReactNode;
   disabled?: boolean;
+  className?: string;
+  defaultValue?: string;
 }
 
 export const DropdownWrapper = styled.div<IDropdownProps>`
-  width: 260px;
+  width: 340px;
   position: relative;
   cursor: pointer;
 `;
@@ -31,7 +33,7 @@ export const DropdownIcon = styled.div`
 `;
 
 export const DropdownOption = styled.div<IDropdownProps>`
-  width: 260px;
+  width: 340px;
   background-color: #fff;
   z-index: ${(props) => (props.open ? "10" : "-10")};
   opacity: ${(props) => (props.open ? "1" : "0")};
@@ -41,7 +43,7 @@ export const DropdownOption = styled.div<IDropdownProps>`
   padding: 4px 12px;
   border: 1px solid #c2c2c2;
   border-top: none;
-  div {
+  .dropdown__option {
     padding: 8px 0;
     border-bottom: 1px solid #d2d2d2;
     &:last-child {

@@ -8,6 +8,7 @@ export interface ILabelProps {
   color?: string;
   value?: string;
   onClick?: React.MouseEventHandler<HTMLElement>;
+  id?: string;
 }
 
 export const LabelWrapper = styled.div<ILabelProps>`
@@ -15,4 +16,5 @@ export const LabelWrapper = styled.div<ILabelProps>`
   font-weight: ${(props) => props.weight};
   padding: ${(props) => props.padding};
   margin: ${(props) => props.margin};
+  color: ${(props) => props.color};
 `;

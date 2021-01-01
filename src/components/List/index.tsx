@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { IOkkotData } from "data";
 import Checkbox from "components/Checkbox";
 import { moneyFormat } from "moneyFormat";
+import Label from "components/Label";
+import Imagebox from "components/Imagebox";
 
 interface ICartData extends IOkkotData {
   checked: boolean;
@@ -13,6 +15,7 @@ interface ICartData extends IOkkotData {
 interface IListProps {
   id: number;
   name: string;
+  imageUrl: string;
   currentCount: number;
   stock: number;
   price: number;
@@ -28,7 +31,7 @@ const ListWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #c2c2c2;
-  padding: 24px 12px;
+  padding: 12px 8px;
   * {
     display: flex;
     justify-content: center;
@@ -36,7 +39,7 @@ const ListWrapper = styled.div`
 `;
 
 const CheckBoxWrapper = styled.div`
-  width: 50px;
+  width: 70px;
 `;
 
 const ImgWrapper = styled.div`
@@ -44,11 +47,14 @@ const ImgWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  width: 350px;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CounterWrapper = styled.div`
-  width: 200px;
+  width: 150px;
 `;
 
 const PriceWrapper = styled.div`
@@ -56,12 +62,13 @@ const PriceWrapper = styled.div`
 `;
 
 const CloseBtn = styled.div`
-  width: 50px;
+  width: 70px;
   cursor: pointer;
 `;
 
 const List: React.FC<IListProps> = ({
   id,
+  imageUrl,
   name,
   currentCount,
   stock,
@@ -76,7 +83,7 @@ const List: React.FC<IListProps> = ({
   const countWithSetData = () => {
     const updatedData = lists.map((list) => {
       if (list.id === id) {
-        list.currentCount = count;
+        list.current_count = count;
       }
       return list;
     });
@@ -91,7 +98,7 @@ const List: React.FC<IListProps> = ({
   useEffect(() => {
     countWithSetData();
   }, [count]);
-  console.log(lists);
+
   return (
     <ListWrapper id={`${id}`}>
       <CheckBoxWrapper>
@@ -101,8 +108,12 @@ const List: React.FC<IListProps> = ({
           setChecked={handleCheckboxClick}
         />
       </CheckBoxWrapper>
-      <ImgWrapper>IMG</ImgWrapper>
-      <TitleWrapper>{name}</TitleWrapper>
+      <ImgWrapper>
+        <Imagebox src={imageUrl} alt="1" width="100px" height="100px" />
+      </ImgWrapper>
+      <TitleWrapper>
+        <Label value={name} weight="500" />
+      </TitleWrapper>
       <CounterWrapper>
         <Counter value={count} countUp={countUp} countDown={countDown} />
       </CounterWrapper>
