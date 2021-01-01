@@ -18,6 +18,14 @@ const Home = () => {
       </Link>
       <Label value="로딩 테스트" margin="48px 0" />
       <Loading />
+      <select name="number">
+        <option value="" selected>
+          -- 선택 --
+        </option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
     </Layout>
   );
 };
